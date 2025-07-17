@@ -11,17 +11,17 @@ const inter = Inter({
 const poppins = Poppins({
   subsets: ['latin'],
   variable: '--font-poppins',
-  weight: ['300', '500'],
+  weight: ['300', '500', '700'], // Added 700 for bolder headings
 });
 
 export const metadata = {
   title: 'Abdullah Habib - Full-Stack Developer',
-  description: 'Portfolio showcasing innovative web development projects',
+  description: 'Portfolio showcasing innovative web development projects and design expertise.',
   openGraph: {
     title: 'Abdullah Habib Portfolio',
-    description: 'Showcasing innovative web development projects',
+    description: 'Showcasing innovative web development projects and design expertise.',
     images: ['/app/images/profile.jpg'],
-    url: 'https://abdullahhabibpro.vercel.app',
+    url: 'https://abdullahhabibpro.vercel.app', // Update with your actual deployed URL
   },
   icons: {
     icon: '/favicon.ico',
@@ -33,7 +33,7 @@ export default function RootLayout({ children }) {
     <html lang="en" className={`${inter.variable} ${poppins.variable}`}>
       <body>
         <ThemeProvider>
-        {children}
+          {children}
         </ThemeProvider>
       </body>
     </html>

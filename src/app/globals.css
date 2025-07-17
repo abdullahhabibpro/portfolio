@@ -1,59 +1,138 @@
 @import "tailwindcss";
 
 :root {
-  --light: #f8fafc;
-  --dark: #1e293b;
-  --accent: #3b82f6;
-  --text-light: #ffffff;
-  --text-dark: #1e293b;
+  /* Light Theme Colors */
+  --color-text-primary-light: #1a202c; /* Dark Gray */
+  --color-text-secondary-light: #4a5568; /* Medium Gray */
+  --color-bg-primary-light: #ffffff; /* White */
+  --color-bg-secondary-light: #f7fafc; /* Off-White */
+  --color-accent-light: #2563eb; /* Blue-600 */
+  --color-accent-secondary-light: #f97316; /* Orange-500 */
+  --color-border-light: #e2e8f0; /* Light Gray */
+  --color-card-bg-light: rgba(255, 255, 255, 0.8); /* Semi-transparent White */
+  --color-card-border-light: #cbd5e0; /* Gray-300 */
+  --color-input-bg-light: #edf2f7; /* Gray-100 */
+  --color-input-border-light: #cbd5e0; /* Gray-300 */
+  --color-link-hover-light: #1d4ed8; /* Blue-700 */
 }
 
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.dark {
+  /* Dark Theme Colors */
+  --color-text-primary-dark: #e2e8f0; /* Light Gray */
+  --color-text-secondary-dark: #a0aec0; /* Medium Light Gray */
+  --color-bg-primary-dark: #0f172a; /* Slate-950 */
+  --color-bg-secondary-dark: #1e293b; /* Slate-800 */
+  --color-accent-dark: #f97316; /* Orange-500 */
+  --color-accent-secondary-dark: #6366f1; /* Indigo-500 */
+  --color-border-dark: #475569; /* Slate-600 */
+  --color-card-bg-dark: rgba(30, 41, 59, 0.7); /* Semi-transparent Slate-800 */
+  --color-card-border-dark: #334155; /* Slate-700 */
+  --color-input-bg-dark: #334155; /* Slate-700 */
+  --color-input-border-dark: #475569; /* Slate-600 */
+  --color-link-hover-dark: #ea580c; /* Orange-600 */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
-
-
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-inter);
+  color: var(--color-text-primary-light);
+  background-color: var(--color-bg-primary-light);
+  transition: background-color 0.5s ease, color 0.5s ease;
+  overflow-x: hidden; /* Prevent horizontal scroll due to animations */
 }
 
-h1, h2, h3 {
-  font-family: 'Poppins', sans-serif;
+.dark body {
+  color: var(--color-text-primary-dark);
+  background-color: var(--color-bg-primary-dark);
 }
 
-.glass {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-poppins);
+  color: var(--color-text-primary-light);
 }
 
-@layer utilities {
-  .text-accent {
-    color: var(--accent);
-  }
-  .bg-light {
-    background-color: var(--light);
-  }
-  .bg-dark {
-    background-color: var(--dark);
-  }
-  .text-light {
-    color: var(--text-light);
-  }
-  .text-dark {
-    color: var(--text-dark);
-  }
+.dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
+  color: var(--color-text-primary-dark);
 }
 
+/* Custom utility classes for easier theming */
+.text-primary { color: var(--color-text-primary-light); }
+.dark .text-primary { color: var(--color-text-primary-dark); }
+
+.text-secondary { color: var(--color-text-secondary-light); }
+.dark .text-secondary { color: var(--color-text-secondary-dark); }
+
+.bg-primary { background-color: var(--color-bg-primary-light); }
+.dark .bg-primary { background-color: var(--color-bg-primary-dark); }
+
+.bg-secondary { background-color: var(--color-bg-secondary-light); }
+.dark .bg-secondary { background-color: var(--color-bg-secondary-dark); }
+
+.text-accent { color: var(--color-accent-light); }
+.dark .text-accent { color: var(--color-accent-dark); }
+
+.border-primary { border-color: var(--color-border-light); }
+.dark .border-primary { border-color: var(--color-border-dark); }
+
+.card-bg { background-color: var(--color-card-bg-light); }
+.dark .card-bg { background-color: var(--color-card-bg-dark); }
+
+.card-border { border-color: var(--color-card-border-light); }
+.dark .card-border { border-color: var(--color-card-border-dark); }
+
+.input-bg { background-color: var(--color-input-bg-light); }
+.dark .input-bg { background-color: var(--color-input-bg-dark); }
+
+.input-border { border-color: var(--color-input-border-light); }
+.dark .input-border { border-color: var(--color-input-border-dark); }
+
+.link-hover { color: var(--color-link-hover-light); }
+.dark .link-hover { color: var(--color-link-hover-dark); }
+
+/* Custom utility for accent background */
+.bg-accent { background-color: var(--color-accent-light); }
+.dark .bg-accent { background-color: var(--color-accent-dark); }
+
+/* Custom utility for accent text */
+.text-accent-secondary { color: var(--color-accent-secondary-light); }
+.dark .text-accent-secondary { color: var(--color-accent-secondary-dark); }
+
+/* Custom utility for accent border */
+.border-accent { border-color: var(--color-accent-light); }
+.dark .border-accent { border-color: var(--color-accent-dark); }
+
+/* Custom utility for accent background with opacity */
+.bg-accent\/10 { background-color: rgba(var(--color-accent-light-rgb), 0.1); }
+.dark .bg-accent\/10 { background-color: rgba(var(--color-accent-dark-rgb), 0.1); }
+
+/* Define RGB values for opacity usage in Tailwind */
+:root {
+  --color-accent-light-rgb: 37, 99, 235; /* RGB for #2563eb */
+  --color-accent-dark-rgb: 249, 115, 22; /* RGB for #f97316 */
+  --color-accent-secondary-light-rgb: 249, 115, 22; /* RGB for #f97316 */
+  --color-accent-secondary-dark-rgb: 99, 102, 241; /* RGB for #6366f1 */
+}
+
+/* Ensure smooth transitions for all elements */
+* {
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); /* ease-in-out */
+}
+
+/* Specific overrides for Framer Motion elements to ensure smooth transitions */
+[data-framer-motion-component] {
+  transition: none !important; /* Let Framer Motion handle transforms */
+}
+
+/* Utility for 3D perspective */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}

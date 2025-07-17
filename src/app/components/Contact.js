@@ -1,13 +1,10 @@
-"use client";
+'use client';
 
-
-
-import { motion, AnimatePresence } from 'framer-motion'; // <--- Add AnimatePresence here
+import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Phone, Github, Linkedin, Send, CheckCircle2, XCircle, Loader2 } from 'lucide-react';
 import { useState } from 'react';
 import { useTheme } from '@/app/context/ThemeContext';
-
-// ... rest of your component code ...
+import { useInView } from 'react-intersection-observer';
 
 export default function Contact() {
   const { theme } = useTheme();
@@ -15,53 +12,57 @@ export default function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState({ message: '', type: '' }); // type: 'pending', 'success', 'error'
 
+  const [ref, inView] = useInView({ // useInView for section visibility
+    triggerOnce: true,
+    threshold: 0.1, // Trigger when 10% of the section is visible
+  });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus({ message: 'Sending your message...', type: 'pending' });
 
-    // In a real application, you would send this to an API endpoint
-    // Example:
-    // try {
-    //   const response = await fetch('/api/contact', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(formData),
-    //   });
-    //   if (response.ok) {
-    //     setStatus({ message: 'Message sent successfully!', type: 'success' });
-    //     setFormData({ name: '', email: '', message: '' });
-    //   } else {
-    //     const errorData = await response.json();
-    //     setStatus({ message: errorData.message || 'Failed to send message.', type: 'error' });
-    //   }
-    // } catch (error) {
-    //   setStatus({ message: 'An error occurred. Please try again later.', type: 'error' });
-    // } finally {
-    //   setTimeout(() => {
-    //     setStatus({ message: '', type: '' });
-    //   }, 5000); // Clear status after 5 seconds
-    // }
+    try {
+      const res = await fetch('https://formsubmit.co/ajax/abdullahhabibpro@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
 
-    // --- Simulated submission for now ---
-    setTimeout(() => {
-      const success = Math.random() > 0.1; // Simulate 90% success rate
-      if (success) {
+      const data = await res.json();
+      if (data.success === 'true') {
         setStatus({ message: 'Message sent successfully!', type: 'success' });
         setFormData({ name: '', email: '', message: '' });
       } else {
-        setStatus({ message: 'Oops! Something went wrong. Please try again.', type: 'error' });
+        // FormSubmit returns data.success as a string 'false' or a custom error message on failure
+        throw new Error(data.message || 'Failed to send message');
       }
+    } catch (error) {
+      console.error('Submission error:', error);
+      setStatus({ message: 'Oops! Something went wrong. Please try again.', type: 'error' });
+    }
 
-      setTimeout(() => {
-        setStatus({ message: '', type: '' });
-      }, 5000); // Clear status after 5 seconds for success/error
-    }, 2000); // Increased simulation time
+    setTimeout(() => {
+      setStatus({ message: '', type: '' });
+    }, 5000); // Clear status after 5 seconds for success/error
   };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const sectionTitleVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: [0.22, 1, 0.36, 1]
+      }
+    }
   };
 
   const contactItemVariants = {
@@ -73,85 +74,100 @@ export default function Contact() {
       transition: {
         delay: i * 0.1,
         duration: 0.7,
-        ease: [0.22, 1, 0.36, 1] // More expressive ease
+        ease: [0.22, 1, 0.36, 1]
       }
     }),
     hover: {
-      y: -8, // Lift more on hover
-      boxShadow: isDark ? "0 15px 30px rgba(0,0,0,0.4)" : "0 15px 30px rgba(0,0,0,0.15)", // Dynamic shadow
+      y: -8,
+      boxShadow: isDark ? "0 15px 30px rgba(0,0,0,0.4)" : "0 15px 30px rgba(0,0,0,0.15)",
       transition: { duration: 0.25, ease: 'easeOut' }
+    }
+  };
+
+  const formVariants = {
+    hidden: { opacity: 0, y: 50, scale: 0.95 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 0.8,
+        delay: 0.2, // Delay slightly after contact items
+        ease: [0.22, 1, 0.36, 1]
+      }
     }
   };
 
   return (
     <section
       id="contact"
+      ref={ref} // Attach ref for useInView
       className={`relative py-28 overflow-hidden transition-colors duration-500 ${
         isDark
-          ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-gray-50'
-          : 'bg-gradient-to-br from-gray-50 via-white to-gray-50 text-gray-900'
+          ? 'bg-gray-950 text-gray-50'
+          : 'bg-gradient-to-br from-blue-50 via-white to-blue-100 text-gray-900'
       }`}
     >
       {/* Animated background elements (consistent with other sections) */}
-      {isDark ? (
-        <div className="absolute inset-0 overflow-hidden opacity-10">
-          <motion.div
-            animate={{
-              x: [0, 100, 0],
-              y: [0, 50, 0],
-              rotate: [0, 5, 0]
-            }}
-            transition={{
-              duration: 25,
-              repeat: Infinity,
-              ease: 'linear'
-            }}
-            className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-blue-500/30 blur-3xl"
-          ></motion.div>
-        </div>
-      ) : (
-        <div className="absolute inset-0 overflow-hidden opacity-15">
-          <motion.div
-            animate={{
-              x: [0, -100, 0],
-              y: [0, -50, 0]
-            }}
-            transition={{
-              duration: 30,
-              repeat: Infinity,
-              ease: 'linear'
-            }}
-            className="absolute bottom-1/3 right-1/4 w-80 h-80 rounded-full bg-purple-500/20 blur-3xl"
-          ></motion.div>
-        </div>
-      )}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <motion.div
+          animate={{
+            x: [0, 100, 0],
+            y: [0, 50, 0],
+            rotate: [0, 5, 0]
+          }}
+          transition={{
+            duration: 25,
+            repeat: Infinity,
+            ease: 'linear'
+          }}
+          className={`absolute top-1/4 left-1/4 w-64 h-64 rounded-full blur-3xl opacity-20
+            ${isDark ? 'bg-blue-500/30' : 'bg-green-400/20'}`}
+        ></motion.div>
+        <motion.div
+          animate={{
+            x: [0, -100, 0],
+            y: [0, -50, 0]
+          }}
+          transition={{
+            duration: 30,
+            repeat: Infinity,
+            ease: 'linear',
+            delay: 4
+          }}
+          className={`absolute bottom-1/3 right-1/4 w-80 h-80 rounded-full blur-3xl opacity-20
+            ${isDark ? 'bg-purple-500/30' : 'bg-red-400/20'}`}
+        ></motion.div>
+      </div>
 
       <div className="container mx-auto px-6 relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8 }}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+          variants={sectionTitleVariants}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-extrabold mb-4"> {/* Increased font weight */}
-            <span className="relative inline-block">
-              Let's <span className="text-accent">Connect</span>
-              <span className={`absolute -bottom-2 left-0 w-full h-1.5 ${ // Thicker underline
-                isDark ? 'bg-accent/70' : 'bg-accent/50'
-              } rounded-full`}></span>
-            </span>
-          </h2>
-          <p className={`text-lg max-w-2xl mx-auto ${
-            isDark ? 'text-gray-300' : 'text-gray-700' // Consistent text color
+         <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4">
+  <span className="relative inline-block">
+    Let&apos;s <span className={isDark ? 'text-orange-400' : 'text-blue-600'}>Connect</span>
+    <motion.span
+      className={`absolute -bottom-2 left-0 w-full h-2 ${isDark ? 'bg-orange-500/60' : 'bg-blue-500/50'} rounded-full`}
+      initial={{ scaleX: 0 }}
+      animate={inView ? { scaleX: 1 } : { scaleX: 0 }}
+      transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+    ></motion.span>
+  </span>
+</h2>
+          <p className={`text-lg md:text-xl max-w-3xl mx-auto ${
+            isDark ? 'text-gray-300' : 'text-gray-700'
           }`}>
             Whether you have a project in mind, a question, or just want to say hi, feel free to reach out!
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12"> {/* Increased gap for more breathing room */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Information */}
-          <div className="space-y-6"> {/* Removed motion.div from parent to apply to children */}
+          <div className="space-y-6">
             {[
               {
                 icon: Mail,
@@ -168,14 +184,14 @@ export default function Contact() {
                 isExternal: false
               },
               {
-                icon: Github, // Using Lucide Github
+                icon: Github,
                 title: 'GitHub',
                 value: 'github.com/abdullahhabibpro',
                 href: 'https://github.com/abdullahhabibpro',
                 isExternal: true
               },
               {
-                icon: Linkedin, // Using Lucide Linkedin
+                icon: Linkedin,
                 title: 'LinkedIn',
                 value: 'linkedin.com/in/abdullahhabibullah',
                 href: 'https://linkedin.com/in/abdullahhabibullah',
@@ -186,29 +202,27 @@ export default function Contact() {
                 key={index}
                 custom={index}
                 initial="hidden"
-                whileInView="visible"
+                animate={inView ? "visible" : "hidden"}
                 whileHover="hover"
-                viewport={{ once: true, amount: 0.5 }} // Trigger earlier
                 variants={contactItemVariants}
-                className={`p-7 rounded-xl border transition-all duration-300 cursor-pointer ${ // Increased padding, rounded-xl, border
-                  isDark
+                className={`p-7 rounded-2xl border transition-all duration-300 cursor-pointer
+                  ${isDark
                     ? 'bg-gray-800/60 border-gray-700/60 hover:bg-gray-700/70'
-                    : 'bg-white/80 border-gray-200 hover:bg-white'
-                }`}
+                    : 'bg-white/80 border-gray-200 hover:bg-white shadow-lg'
+                  }`}
               >
                 <div className="flex items-center gap-4 mb-4">
-                  <div className={`p-3 rounded-full ${ // Consistent icon background
-                    isDark ? 'bg-accent/20 text-accent' : 'bg-accent/10 text-accent'
-                  }`}>
-                    <item.icon className="w-7 h-7" /> {/* Larger icons */}
+                  <div className={`p-3 rounded-full flex-shrink-0
+                    ${isDark ? 'bg-orange-500/20 text-orange-400' : 'bg-blue-500/10 text-blue-600'}`}>
+                    <item.icon className="w-7 h-7" />
                   </div>
-                  <h3 className="text-xl md:text-2xl font-bold">{item.title}</h3> {/* Larger title */}
+                  <h3 className="text-xl md:text-2xl font-bold">{item.title}</h3>
                 </div>
                 <a
                   href={item.href}
                   target={item.isExternal ? "_blank" : "_self"}
                   rel={item.isExternal ? "noopener noreferrer" : ""}
-                  className={`block text-lg font-medium hover:text-accent transition-colors duration-300 ${ // Larger font, block for full clickable area
+                  className={`block text-lg font-medium hover:text-accent transition-colors duration-300 ${
                     isDark ? 'text-gray-300' : 'text-gray-700'
                   }`}
                 >
@@ -220,18 +234,17 @@ export default function Contact() {
 
           {/* Contact Form */}
           <motion.form
-            initial={{ opacity: 0, y: 30, scale: 0.95 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            initial="hidden"
+            animate={inView ? "visible" : "hidden"}
+            variants={formVariants}
             onSubmit={handleSubmit}
-            className={`p-8 rounded-xl border shadow-xl flex flex-col justify-between ${ // Added flex-col justify-between for sticky button
-              isDark
+            className={`p-8 rounded-2xl border shadow-xl flex flex-col justify-between
+              ${isDark
                 ? 'bg-gray-800/60 border-gray-700/60'
                 : 'bg-white/80 border-gray-200'
-            }`}
+              }`}
           >
-            <div className="space-y-6 flex-grow"> {/* flex-grow to push button down */}
+            <div className="space-y-6 flex-grow">
               <div>
                 <label
                   htmlFor="name"
@@ -247,11 +260,11 @@ export default function Contact() {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className={`w-full p-4 rounded-lg border-2 ${ // Thicker border
+                  className={`w-full p-4 rounded-lg border-2 ${
                     isDark
-                      ? 'bg-gray-700/50 border-gray-700 text-light focus:border-accent'
-                      : 'bg-gray-50 border-gray-300 text-dark focus:border-accent'
-                  } focus:ring-2 focus:ring-accent/30 outline-none transition-all duration-200`} // Smooth transition
+                      ? 'bg-gray-700/50 border-gray-700 text-gray-50 focus:border-orange-500'
+                      : 'bg-gray-50 border-gray-300 text-gray-900 focus:border-blue-500'
+                  } focus:ring-2 ${isDark ? 'focus:ring-orange-500/30' : 'focus:ring-blue-500/30'} outline-none transition-all duration-200`}
                   placeholder="John Doe"
                   required
                 />
@@ -272,11 +285,11 @@ export default function Contact() {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`w-full p-4 rounded-lg border-2 ${ // Thicker border
+                  className={`w-full p-4 rounded-lg border-2 ${
                     isDark
-                      ? 'bg-gray-700/50 border-gray-700 text-light focus:border-accent'
-                      : 'bg-gray-50 border-gray-300 text-dark focus:border-accent'
-                  } focus:ring-2 focus:ring-accent/30 outline-none transition-all duration-200`}
+                      ? 'bg-gray-700/50 border-gray-700 text-gray-50 focus:border-orange-500'
+                      : 'bg-gray-50 border-gray-300 text-gray-900 focus:border-blue-500'
+                  } focus:ring-2 ${isDark ? 'focus:ring-orange-500/30' : 'focus:ring-blue-500/30'} outline-none transition-all duration-200`}
                   placeholder="john.doe@example.com"
                   required
                 />
@@ -296,11 +309,11 @@ export default function Contact() {
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
-                  className={`w-full p-4 rounded-lg border-2 ${ // Thicker border
+                  className={`w-full p-4 rounded-lg border-2 ${
                     isDark
-                      ? 'bg-gray-700/50 border-gray-700 text-light focus:border-accent'
-                      : 'bg-gray-50 border-gray-300 text-dark focus:border-accent'
-                  } focus:ring-2 focus:ring-accent/30 outline-none transition-all duration-200 resize-y`} // Allow vertical resize
+                      ? 'bg-gray-700/50 border-gray-700 text-gray-50 focus:border-orange-500'
+                      : 'bg-gray-50 border-gray-300 text-gray-900 focus:border-blue-500'
+                  } focus:ring-2 ${isDark ? 'focus:ring-orange-500/30' : 'focus:ring-blue-500/30'} outline-none transition-all duration-200 resize-y`}
                   rows="5"
                   placeholder="Hi Abdullah, I'd like to discuss..."
                   required
@@ -308,15 +321,17 @@ export default function Contact() {
               </div>
             </div>
 
-            <div className="mt-8 flex flex-col sm:flex-row items-center gap-4"> {/* Adjusted margin-top */}
-              <button
+            <div className="mt-8 flex flex-col sm:flex-row items-center gap-4">
+              <motion.button
                 type="submit"
-                className={`flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-lg ${ // Larger button, larger font
-                  isDark
-                    ? 'bg-accent hover:bg-accent/90 text-white'
-                    : 'bg-accent hover:bg-accent/90 text-white'
-                } transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed`}
-                disabled={status.type === 'pending'} // Disable button when sending
+                className={`flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-lg
+                  ${isDark
+                    ? 'bg-orange-500 hover:bg-orange-600 text-white'
+                    : 'bg-blue-600 hover:bg-blue-700 text-white'
+                  } transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed`}
+                disabled={status.type === 'pending'}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
                 {status.type === 'pending' ? (
                   <>
@@ -327,12 +342,12 @@ export default function Contact() {
                     Send Message <Send className="w-5 h-5" />
                   </>
                 )}
-              </button>
+              </motion.button>
 
-              <AnimatePresence mode="wait"> {/* Use AnimatePresence for smooth status transitions */}
+              <AnimatePresence mode="wait">
                 {status.message && (
                   <motion.div
-                    key={status.type} // Key changes to re-animate on type change
+                    key={status.type}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: 20 }}
@@ -342,7 +357,7 @@ export default function Contact() {
                         ? 'text-green-500'
                         : status.type === 'error'
                         ? 'text-red-500'
-                        : 'text-accent' // For pending state
+                        : (isDark ? 'text-orange-400' : 'text-blue-500') // For pending state
                     }`}
                   >
                     {status.type === 'success' && <CheckCircle2 className="w-5 h-5" />}
