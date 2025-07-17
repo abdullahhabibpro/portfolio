@@ -286,6 +286,7 @@ import { useTheme } from '@/app/context/ThemeContext';
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import Particles from './Particles';
+// import pdf from '../../../public/abdullahhabibresume.pdf'
 
 const textVariants = {
   hidden: { opacity: 0, y: 50, skewY: 5 },
@@ -442,7 +443,7 @@ export default function Hero() {
                   className="flex flex-wrap justify-center gap-5 pt-4"
                 >
                   <motion.a
-                    href="/app/resume.pdf"
+                    href='/abdullahhabibresume.pdf'
                     download
                     variants={buttonHover}
                     whileHover="hover"

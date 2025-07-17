@@ -19,8 +19,8 @@ export default function Projects() {
       description: 'A TikTok-inspired responsive video platform with secure authentication, optimized media delivery using Cloudinary, and scalable architecture.',
       tech: ['Next.js', 'MongoDB', 'Mongoose', 'NextAuth', 'Cloudinary', 'Tailwind CSS'],
       image: clipit, // Use high-quality placeholders or your actual images
-      link: '#', // Replace with actual project URL
-      github: '#', // Replace with actual GitHub URL
+      link: 'clickitvideos.vercel.app', // Replace with actual project URL
+      github: 'https://github.com/abdullahhabibpro/clickit.git', // Replace with actual GitHub URL
       features: ['Video upload & processing', 'User authentication', 'Responsive design', 'Optimized performance', 'Scalable architecture']
     },
     {
@@ -28,8 +28,8 @@ export default function Projects() {
       description: 'Real-time social platform with messaging, user profiles, and engagement features, designed with mobile-first principles.',
       tech: ['React.js', 'Redux', 'Appwrite', 'Tailwind CSS', 'WebSockets'],
       image: echo,
-      link: '#',
-      github: '#',
+      link: 'echosocialweb.vercel.app',
+      github: 'https://github.com/abdullahhabibpro/echo.git',
       features: ['Real-time messaging', 'Dynamic user profiles', 'Mobile-first design', 'Efficient state management', 'Engagement analytics']
     },
     {
@@ -37,8 +37,8 @@ export default function Projects() {
       description: 'An interactive Quran reading experience with audio recitation, verse bookmarking, and optimized performance using local data storage.',
       tech: ['React.js', 'Tailwind CSS', 'Quran Cloud API', 'IndexedDB'],
       image: kahf,
-      link: '#',
-      github: '#',
+      link: 'kahfquran.vercel.app',
+      github: 'https://github.com/abdullahhabibpro/kahf.git',
       features: ['Audio recitation sync', 'Verse bookmarking & notes', 'Dynamic dark mode', 'Seamless offline support', 'Intuitive UI/UX']
     },
     

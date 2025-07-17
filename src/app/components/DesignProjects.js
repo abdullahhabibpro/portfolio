@@ -320,9 +320,9 @@ import { useTheme } from '@/app/context/ThemeContext';
 import { useInView } from 'react-intersection-observer';
 
 const project = {
-  title: 'Portfolio Website UI/UX',
+  title: 'ISLAMIC SOICALMEDIA UI/UX',
   description:
-    'A modern and responsive UI/UX design for this portfolio site, featuring intuitive navigation, dark mode support, and a scalable component system.',
+    'A UI UX layout in Figma that incorporates components, a cohesive style, and a color system to create an engaging social media platform tailored for Islamic users. Ensure the design is responsive for both mobile and desktop devices.',
   tools: ['Figma', 'Prototyping', 'Wireframing', 'Design Systems'],
   figmaLink:
     'https://www.figma.com/design/Nf5daik93SKT42S5HgpjQD/Untitled?node-id=60-73&t=HaZVTd9abHhxrb6A-1',

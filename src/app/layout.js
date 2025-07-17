@@ -18,10 +18,10 @@ export const metadata = {
   title: 'Abdullah Habib - Full-Stack Developer',
   description: 'Portfolio showcasing innovative web development projects and design expertise.',
   openGraph: {
-    title: 'Abdullah Habib Portfolio',
+    title: 'Abdullah Habib',
     description: 'Showcasing innovative web development projects and design expertise.',
-    images: ['/app/images/profile.jpg'],
-    url: 'https://abdullahhabibpro.vercel.app', // Update with your actual deployed URL
+    images: ['/abdullah.jpeg'],
+    url: 'https://abdullahhabib.vercel.app', // Update with your actual deployed URL
   },
   icons: {
     icon: '/favicon.ico',
