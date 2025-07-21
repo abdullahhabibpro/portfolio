@@ -24,7 +24,7 @@ export const metadata = {
     url: 'https://abdullahhabib.vercel.app', // Update with your actual deployed URL
   },
   icons: {
-    icon: '/favicon.ico',
+    icon: '/abdullah.jpeg',
   },
 };
 

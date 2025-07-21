@@ -9,7 +9,7 @@ const experiences = [
   {
     company: 'Self-Employed',
     role: 'Full-Stack Developer',
-    period: '2023 - Present',
+    period: '2024 - Present',
     achievements: [
       'Developed and deployed scalable full-stack web applications, from concept to production.',
       'Engineered responsive and accessible user interfaces using React and Next.js.',

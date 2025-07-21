@@ -15,13 +15,13 @@ import { useEffect, useState } from 'react'; // Import useEffect and useState
 const skills = [
   {
     category: 'Frontend',
-    items: ['React.js', 'Next.js', 'JavaScript (ES6+)', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
+    items: ['React.js', 'Next.js', 'JavaScript (ES6+)', 'Bootstrap', 'Tailwind CSS'],
     icon: Code,
     description: 'Crafting engaging and responsive user interfaces with modern web technologies, ensuring pixel-perfect designs.'
   },
   {
     category: 'Backend & Database',
-    items: ['MongoDB', 'Mongoose', 'Appwrite', 'Node.js', 'Express.js', 'RESTful APIs'],
+    items: ['MongoDB', 'Mongoose', 'Appwrite', 'Node.js', 'Express.js', 'Firebase'],
     icon: Server,
     description: 'Building robust server-side logic and managing data with scalable database solutions for reliable applications.'
   },
