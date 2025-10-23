@@ -21,12 +21,13 @@ export const metadata = {
     title: 'Abdullah Habib',
     description: 'Showcasing innovative web development projects and design expertise.',
     images: ['/abdullah.jpeg'],
-    url: 'https://abdullahhabib.vercel.app', // Update with your actual deployed URL
+    url: 'https://ahabib.site',
   },
   icons: {
     icon: '/abdullah.jpeg',
   },
 };
+
 
 export default function RootLayout({ children }) {
   return (
