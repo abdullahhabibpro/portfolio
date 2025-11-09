@@ -15,18 +15,33 @@ const poppins = Poppins({
 });
 
 export const metadata = {
-  title: 'Abdullah Habib - Full-Stack Developer',
-  description: 'Portfolio showcasing innovative web development projects and design expertise.',
+  title: 'Abdullah Habib - Full-Stack Developer | React, Next.js & MERN Specialist',
+  description:
+    'Abdullah Habib is a Full-Stack Developer specializing in React, Next.js, and MERN stack development. Explore a modern portfolio showcasing responsive web applications, clean UI design, and high-performance coding projects.',
+  keywords: [
+    'Abdullah Habib',
+    'Full Stack Developer',
+    'React Developer',
+    'Next.js Developer',
+    'MERN Stack',
+    'Frontend Developer',
+    'Web Developer Portfolio',
+    'JavaScript Developer',
+    'UI UX Design',
+    'Modern Web Development'
+  ],
   openGraph: {
-    title: 'Abdullah Habib',
-    description: 'Showcasing innovative web development projects and design expertise.',
-    images: ['/abdullah.jpeg'],
+    title: 'Abdullah Habib - Full-Stack Developer',
+    description:
+      'Explore Abdullah Habib’s portfolio featuring React, Next.js, and MERN stack projects with a focus on performance, clean design, and innovation.',
+    images: ['/abdullahhabib.jpeg'],
     url: 'https://ahabib.site',
   },
   icons: {
-    icon: '/abdullah.jpeg',
+    icon: '/abdullahhabib.jpeg',
   },
 };
+
 
 
 export default function RootLayout({ children }) {
